@@ -1,0 +1,15 @@
+{
+  "name": "openpose-media-skeleton-reader",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Vercel wrapper for the OpenPose Media Skeleton Reader frontend. The OpenPose runner remains a local FastAPI backend.",
+  "scripts": {
+    "dev": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "preview": "npm --prefix frontend run preview"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

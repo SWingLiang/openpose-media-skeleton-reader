@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OpenPose Media Skeleton Reader v0.3.1</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">OpenPose · BODY_25 · Hand · Face · Audio · RGB</p>
+        <h1>OpenPose Media Skeleton Reader</h1>
+        <p class="subtitle">本地HTML界面通过Python调用OpenPoseDemo.exe：选择媒体 → 选择OpenPose路径 → 设置模型开关 → 点击一键分析（待生成JSON完毕）→ 按需勾选视频预览的显示层</p>
+      </div>
+      <div id="pyStatus" class="plain-status">Python: checking...</div>
+    </header>
+
+    <section class="controls">
+      <div class="card step-card">
+        <h2>1. 媒体</h2>
+        <label class="file-btn">选择视频/图片<input id="mediaInput" type="file" accept="video/*,image/*" /></label>
+        <p id="mediaStatus" class="hint">尚未选择媒体</p>
+      </div>
+
+      <div class="card config-card">
+        <h2>2. OpenPose 配置</h2>
+        <label>OpenPoseDemo.exe</label>
+        <div class="path-row"><input id="openposeExe" placeholder="C:\openpose\bin\OpenPoseDemo.exe" /><button id="pickExe">选择 exe</button></div>
+        <label>models 文件夹</label>
+        <div class="path-row"><input id="modelFolder" placeholder="C:\openpose\models" /><button id="pickModels">选择文件夹</button></div>
+        <div class="mini-grid">
+          <label>FPS <input id="fps" type="number" min="1" max="120" value="30" /></label>
+          <label>net_resolution <input id="netResolution" value="-1x368" /></label>
+          <label>hand_net <input id="handResolution" value="368x368" /></label>
+          <label>face_net <input id="faceResolution" value="368x368" /></label>
+        </div>
+        <button id="saveConfig">保存配置</button><span id="configStatus" class="hint"></span>
+      </div>
+
+      <div class="card step-card">
+        <h2>3. 模型与分析</h2>
+        <label><input id="enableHand" type="checkbox" /> Hand</label>
+        <label><input id="enableFace" type="checkbox" /> Face</label>
+        <button id="analyzeBtn">一键分析</button>
+        <p id="jobStatus" class="hint">尚未运行 OpenPose</p>
+      </div>
+
+      <div class="card step-card">
+        <h2>4. 已有 JSON</h2>
+        <label class="file-btn secondary">选择 JSON 文件夹<input id="jsonFolderInput" type="file" accept=".json,application/json" multiple webkitdirectory /></label>
+        <button id="openJsonFolder">直接打开已生成的 JSON 文件夹</button>
+        <p id="poseStatus" class="hint">尚未加载骨架 JSON</p>
+      </div>
+    </section>
+
+    <section class="displaybar card">
+      <strong>视频预览显示层：</strong>
+      <label><input id="showMedia" type="checkbox" checked /> 原视频/图片</label>
+      <label><input id="showBody" type="checkbox" checked /> BODY_25</label>
+      <label><input id="showHands" type="checkbox" checked /> Hands</label>
+      <label><input id="showFace" type="checkbox" checked /> Face</label>
+      <label><input id="showPoints" type="checkbox" checked /> 点</label>
+      <label><input id="showNumbers" type="checkbox" /> 编号</label>
+      <label><input id="showAudio" type="checkbox" checked /> Audio</label>
+      <label><input id="showRGB" type="checkbox" checked /> RGB</label>
+    </section>
+
+    <section class="workspace">
+      <div class="left-col">
+        <div class="stage card">
+          <video id="video" playsinline></video>
+          <img id="image" alt="selected media" />
+          <canvas id="overlay"></canvas>
+          <div id="emptyStage">请选择媒体</div>
+        </div>
+        <div class="playbar card">
+          <button id="playBtn">播放/暂停</button><button id="resetBtn">重置</button>
+          <span id="frameInfo">Frame: 0 / 0</span>
+        </div>
+        <div class="analysis-grid">
+          <div class="card analysis-card"><h3>Audio waveform / spectrum</h3><canvas id="audioCanvas"></canvas></div>
+          <div class="card analysis-card"><h3>RGB composition</h3><canvas id="rgbCanvas"></canvas></div>
+        </div>
+      </div>
+      <aside class="card inspector">
+        <h2>当前帧数据</h2>
+        <pre id="dataPanel">P_0 = {}</pre>
+        <details><summary>OpenPose 日志</summary><pre id="logPanel"></pre></details>
+      </aside>
+    </section>
+  </main>
+  <canvas id="sampleCanvas" hidden></canvas>
+  <script src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+config/openpose_config.json
+runs/uploads/*
+!runs/uploads/.gitkeep
+runs/outputs/*
+!runs/outputs/.gitkeep
+runs/temp/*
+!runs/temp/.gitkeep
+__pycache__/
+*.pyc

@@ -1,0 +1,9 @@
+{
+  "openpose_exe": "C:\\openpose\\bin\\OpenPoseDemo.exe",
+  "model_folder": "C:\\openpose\\models",
+  "fps": 30,
+  "net_resolution": "-1x368",
+  "hand_net_resolution": "368x368",
+  "face_net_resolution": "368x368",
+  "number_people_max": 0
+}
